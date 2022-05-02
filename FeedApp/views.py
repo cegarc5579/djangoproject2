@@ -56,4 +56,21 @@ def myfeed(request):
     return render(request, 'FeedApp/myfeed.html', context)
 
 
+@login_required
+def new_post(request):
+    if request.method != 'POST':
+        form = PostForm()
+    else:
+        form = PostForm(request.POST,request.FILES)
+        if form.is_valid():
+            new_post = form.save(commit=False) #commit but not actually writing it to the database
+            new_post.username = request.user
+            new_post.save()
+            return redirect('FeedApp:myfeed')
+    
+    context = {'form':form}
+    return render(request, 'FeedApp/new_post.html', context)
+    
+
+
 
