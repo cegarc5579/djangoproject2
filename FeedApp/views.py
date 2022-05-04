@@ -79,7 +79,7 @@ def friendsfeed(request):
     comment_count_list = []
     like_count_list = []
     friends = Profile.objects.filter(user=request.user).values('friends')
-    posts = Post.objects.filter(username_in=friends).order_by('-date_posted')
+    posts = Post.objects.filter(username__in=friends).order_by('-date_posted')
     for p in posts:
         c_count = Comment.objects.filter(post=p).count()
         l_count = Like.objects.filter(post=p).count()
