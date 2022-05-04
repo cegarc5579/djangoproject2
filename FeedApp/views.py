@@ -91,7 +91,7 @@ def friendsfeed(request):
         post_to_like = request.POST.get("like")#this is the name of the button 'like'
         print(post_to_like)
         like_already_exists = Like.objects.filter(post_id=post_to_like,username=request.user)#this is to prevent user from liking the post multiple times 
-        if not like_already_exists():
+        if not like_already_exists.exists():
             Like.objects.create(post_id=post_to_like,username=request.user)
             return redirect("FeedApp:friendsfeed")#this will refresh the page 
 
