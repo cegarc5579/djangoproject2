@@ -128,14 +128,14 @@ def friends(request):
 
     #to get the friends
     user_friends = user_profile.friends.all()
-    user_friends_profiles = Profile.objects.filter(user_in=user_friends)
+    user_friends_profiles = Profile.objects.filter(user__in=user_friends)
 
     #to get friend requests sent
     user_relationships = Relationship.objects.filter(sender=user_profile)
     request_sent_profiles = user_relationships.values('receiver')
 
     #a list of who we can send a friend request to, show everyone in the system that has requested or we have requested
-    all_profiles = Profile.objects.exclude(user=request.user).exclude(id_in=user_friends_profiles).exclude(id_in=request_sent_profiles)
+    all_profiles = Profile.objects.exclude(user=request.user).exclude(id__in=user_friends_profiles).exclude(id__in=request_sent_profiles)
     #exlude the user, the friends we have, and the request we have sent
 
     #friend requests received by the user
